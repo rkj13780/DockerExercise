@@ -1,0 +1,81 @@
+Azure Repos is a set of version control tools that you can use to manage your code.
+Azure Repos provides two options for version control: Git and Team Foundation Version Control (A centralized VCS).  We will use Git for our example.
+
+Prerequisite:
+You will need an Azure DevOps account (https://azure.microsoft.com/en-us/services/devops/)
+
+If you are already part of an organization, sign in here: https://dev.azure.com/{yourorganization}
+
+You will need to have the Git CLI tools installed
+
+==============
+Create a New Project:
+
+Provide a Name
+
+Select> public or private
+
+
+When completed, welcome page should appear.
+
+===============
+
+Select Repos
+
+You repo will be empty.
+
+If you have not previously added SSH keys, select Manage SSH keys and add your public key.
+
+
+Now Select Clone to Your Computer (SSH) and copy the URL
+
+Open a local terminal window. 
+
+Go to the folder where you want the code from the repo stored on your computer, and run git clone, followed by the path copied from Clone URL in the previous step. 
+
+git clone {https://YOUR_COPIED_URL}
+
+#eg. git clone git@ssh.dev.azure.com:v3/john0136/liletestaci/liletestaci
+
+#You now have an empty git directory that is tied to your remote Azure repo.
+
+Now add your application code from 01-01 and push it to the Azure repo.
+
+git add *.*
+git commit -m 'initial code commit'
+git push
+
+Go back to your Azure DevOps repo and look at "Files"
+
+#Dockerfile ended up as an untracked file because of no .*
+
+git add Dockerfile
+git commit -m 'add Dockerfile'
+git push
+
+Go back to your Azure DevOps repo and look at "Files" - Dockerfile is now added!
+
+You can now share your code with other developers, in addition to locally building and Docker pushing to your Docker registry.
+
+
+
+
+
+===============
+Reference
+
+Create a project: 
+https://docs.microsoft.com/en-us/azure/devops/user-guide/sign-up-invite-teammates?view=azure-devops#create-a-project
+
+Code with Git:
+https://docs.microsoft.com/en-us/azure/devops/user-guide/code-with-git?view=azure-devops
+
+Git CLI tools: https://docs.microsoft.com/en-us/azure/devops/user-guide/code-with-git?view=azure-devops#install-git-command-line-tools
+
+
+EXAMPLE FLOW:
+https://mikepfeiffer.io/azure-docker-containers.html
+
+SSH Keys https://docs.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops
+
+

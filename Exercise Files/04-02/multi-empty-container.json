@@ -1,0 +1,92 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "variables": {
+    "container1name": "docker-azure1",
+    "container1image": "liinacr.azurecr.io/docker-azure:latest",
+    "container2name": "docker-azure2",
+    "container2image": "liinacr.azurecr.io/docker-azure:latest"
+  },
+  "resources": [
+    {
+      "name": "volume-demo-emptydir",
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2018-02-01-preview",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "imageRegistryCredentials": [
+          {
+            "server": "liinacr.azurecr.io",
+            "username": "liinacr",
+            "password": "nl=b32u0Nex=2fNNnJxtVvUcOjwGa+la"
+          }
+        ],
+        "containers": [
+          {
+            "name": "[variables('container1name')]",
+            "properties": {
+              "image": "[variables('container1image')]",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 1.5
+                }
+              },
+              "ports": [
+                {
+                  "port": 80
+                }
+              ],
+              "volumeMounts": [
+                {
+                  "name": "emptydir1",
+                  "mountPath": "/usr/share/nginx/html/hostname/"
+                }
+              ]
+            }
+          },
+          {
+            "name": "[variables('container2name')]",
+            "properties": {
+              "image": "[variables('container2image')]",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 1.5
+                }
+              },
+              "volumeMounts": [
+                {
+                  "name": "emptydir1",
+                  "mountPath": "/usr/share/nginx/html/hostname/"
+                }
+              ],
+              "environmentVariables": [
+                {
+                    "name": "VERSION",
+                    "value": "v2"
+                }
+              ] 
+            }
+          }
+        ],
+        "osType": "Linux",
+        "ipAddress": {
+          "type": "Public",
+          "ports": [
+            {
+              "protocol": "tcp",
+              "port": "80"
+            }
+          ]
+        },
+        "volumes": [
+          {
+            "name": "emptydir1",
+            "emptyDir": {}
+          }
+        ]
+      }
+    }
+  ]
+}
